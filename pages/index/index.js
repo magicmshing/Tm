@@ -27,6 +27,8 @@ Page({
     nowWeather: '',
     nowWeatherBackground: '',  //     动态获取与天气相对应的背景图片
     hourlyWeather: [],
+    todayTemp: "",
+    todayDate: "",
   },
   enablePullDownRefresh() {
     this.getnow(() => {
@@ -46,7 +48,8 @@ Page({
          console.log(res)
          let result = res.data.result
          this.setnow(result)
-         this.sethourlyWeather(result)         
+         this.sethourlyWeather(result)
+         this.setToday(result)         
        },
        complete:() => {
          callback && callback()
@@ -83,4 +86,11 @@ Page({
       hourlyWeather: hourlyWeather
     })
   },
+  setToday(result){
+    let date = new Date()
+    this.setData({
+      todayTemp: `${result.today.minTemp}° - ${result.today.maxTemp}°`,
+      todayDate: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} 今天`
+    })
+  }
 })

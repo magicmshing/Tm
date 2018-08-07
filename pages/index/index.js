@@ -18,6 +18,9 @@ const weatherColorMap = {
   'heavyrain': 'bcbae5',
   'snow': 'e2eef2'
 }
+const QQMapWX = require(
+  '../../libs/qqmap-wx-jssdk.js'
+  )
 
 
 
@@ -36,6 +39,9 @@ Page({
     })
   },
   onLoad() {
+    this.qqmapsdk = new QQMapWX({
+      key: 'IC7BZ-J3SW4-YMDU7-D6LQU-3O7QJ-NZFY6'
+    })
     this.getnow()
   },
   getnow(callback) {
@@ -96,6 +102,30 @@ Page({
   onTapDayWeather(){
     wx.navigateTo({
       url: '/pages/list/list',
+    })
+  },
+  onTapLocation() {
+    wx.getLocation({
+      success: rse => {
+        // this.qqmapsdk.reverseGeocoder({
+        //   location: {
+        //     latitude: 39.984060,
+        //     longitude: 116.307520
+        //   },
+        //   success: res => {
+        //     console.log(res.result.address_component.city);
+        //   }
+        // });
+        this.qqmapsdk.reverseGeocoder({
+          location: {
+            latitude: rse.latitude,
+            longitude: rse.longitude
+          },
+          success: res => {
+            console.log(res.result.address_component.city);
+          }
+        });
+      }
     })
   }
 })

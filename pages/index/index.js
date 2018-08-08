@@ -105,7 +105,7 @@ Page({
   onTapLocation() {
     wx.getLocation({
       success: res => {
-        //调用接口
+        //调用接口 
         this.qqmapsdk.reverseGeocoder({
           location: {
             latitude: res.latitude,

@@ -49,6 +49,21 @@ Page({
     this.qqmapsdk = new QQMapWX({
       key: 'IC7BZ-J3SW4-YMDU7-D6LQU-3O7QJ-NZFY6'
     })
+    wx.getSetting({
+      success: res => {
+        let auth = res.authSetting['scope.userLocation']
+        this.setData({
+          locationAuthType: auth? AUTHORIZED: 
+          (auth === false)?UNAUTHORIZED:UNPROMPTED,
+          locationTipsText: auth? AUTHORIZED_TIPS:
+          (auth === false)?UNAUTHORIZED_TIPS:UNPROMPTED_TIPS
+        })
+        if (auth)
+          this.getCityAndWeather()
+        else
+          this.getnow()
+      }
+    })
     this.getnow()
   },
   getnow(callback) {
@@ -112,9 +127,9 @@ Page({
     })
   },
   onTapLocation() {
-      this.getLocation()
+    this.getCityAndWeather()
   },
-  getLocation(){
+  getCityAndWeather(){
     wx.getLocation({
       success: res => {
         this.setData({

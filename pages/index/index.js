@@ -62,6 +62,9 @@ Page({
           this.getCityAndWeather()
         else
           this.getnow()
+      },
+      fail: () => {
+        this.getNow() //使用默认城市广州
       }
     })
     this.getnow()
